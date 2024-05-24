@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator</title>
+  <link rel="stylesheet" href="agecalc.css">
+</head>
+<body>
+  <div class="agecalculator">
+    <h1>Age Calculator</h1>
+    <form id="ageCalculatorForm">
+      <label for="calc">Date of Birth:</label>
+      <input type="date" id="calc" required>
+      <button type="submit">Calculate Age</button>
+    </form>
+    <div id="result"></div>
+    <div id="resultDays"></div> 
+  </div>
+
+  <script>
+    document.getElementById('ageCalculatorForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      var calcInput = document.getElementById('calc').value;
+      var calc = new Date(calcInput);
+      var today = new Date();
+      
+      var yearsDiff = today.getFullYear() - calc.getFullYear();
+      var monthsDiff = today.getMonth() - calc.getMonth();
+      var daysDiff = today.getDate() - calc.getDate();
+      
+      console.log("Years difference:", yearsDiff);
+      console.log("Months difference:", monthsDiff);
+      console.log("Days difference:", daysDiff);
+      
+      if (daysDiff < 0) {
+        monthsDiff--;
+        var lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        daysDiff = lastMonth.getDate() + daysDiff;
+      }
+      
+      if (monthsDiff < 0 || (monthsDiff === 0 && daysDiff < 0)) {
+        yearsDiff--;
+        monthsDiff = 12 + monthsDiff; 
+      }
+      
+      console.log("Adjusted years difference:", yearsDiff);
+      console.log("Adjusted months difference:", monthsDiff);
+      console.log("Adjusted days difference:", daysDiff);
+      
+      var ageYearsMonthsMessage = "Your age is: ";
+      
+      if (yearsDiff > 0) {
+        ageYearsMonthsMessage += yearsDiff + (yearsDiff === 1 ? " year" : " years");
+      }
+      
+      if (monthsDiff > 0) {
+        ageYearsMonthsMessage += (yearsDiff > 0 ? ", " : "") + monthsDiff + (monthsDiff === 1 ? " month" : " months");
+      }
+      
+      if (daysDiff > 0) {
+        ageYearsMonthsMessage += (yearsDiff > 0 || monthsDiff > 0 ? " and " : "") + daysDiff + (daysDiff === 1 ? " day" : " days");
+      }
+      
+      document.getElementById('result').innerText = ageYearsMonthsMessage;
+    });
+  </script>
+</body>
+</html>
+
+
